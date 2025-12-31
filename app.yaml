@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: color-app
-  namespace: argocd
+  name: producation
 spec:
-  project: default
+  destination:
+    namespace: 'solar'
+    server: https://kubernetes.default.svc
   source:
+    path: solar_sys
     repoURL: https://github.com/mostafagheta/argoCD_test
     targetRevision: HEAD
-    path: solar_sys
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: solar
+  sources: []
+  project: default
   syncPolicy:
     automated:
+      prune: true
       selfHeal: true
+      enabled: true
     syncOptions:
       - CreateNamespace=true
